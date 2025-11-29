@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LED Car Lights - AutoGear Store</title>
+
+  <!-- Feather Icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+    body { background: #f5f5f5; color: #333; }
+
+    /* NAVIGATION BAR */
+    nav {
+      position: fixed; top:0; left:0; width:100%;
+      background: rgba(0,0,0,0.75);
+      padding: 15px 8%; display:flex; justify-content:space-between; align-items:center;
+      z-index:100; backdrop-filter:blur(6px);
+    }
+    nav a { color:white; text-decoration:none; font-size:1.1rem; display:flex; align-items:center; gap:6px; }
+    nav a:hover { color:#ff6600; }
+
+    /* HEADER */
+    header {
+      height:50vh;
+      background:url('https://images.unsplash.com/photo-1574717024757-c3ce2f6b7c8b') center/cover no-repeat;
+      display:flex; justify-content:center; align-items:center; color:white; text-align:center; position:relative;
+    }
+    header::after {
+      content:""; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.55);
+    }
+    header h1 { z-index:2; font-size:3rem; font-weight:bold; letter-spacing:2px; }
+
+    /* MAIN CONTENT */
+    .container { max-width:1150px; margin:80px auto; }
+    .products {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:20px; margin-top:20px;
+    }
+    .card {
+      background:white; padding:15px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1); text-align:center; transition:0.3s;
+    }
+    .card:hover { transform: translateY(-6px); }
+    .card img { width:100%; height:200px; border-radius:10px; object-fit:cover; }
+    .card h3 { margin:12px 0 6px; font-size:1.2rem; }
+    .price { color:#ff6600; font-weight:bold; margin-bottom:10px; }
+    .add-btn {
+      background:#ff6600; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; transition:0.3s; font-size:1rem;
+    }
+    .add-btn:hover { background:#e65c00; }
+
+    footer {
+      background:#222; color:white; text-align:center; padding:15px; margin-top:50px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <h2 style="color:white;">AutoGear Store</h2>
+    <a href="index.html"><i data-feather="arrow-left"></i> Back</a>
+  </nav>
+
+  <!-- HEADER -->
+  <header>
+    <h1>LED Car Lights</h1>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="container">
+    <h2 style="font-size:2rem; margin-bottom:15px;">Available LED Lights</h2>
+
+    <div class="products">
+
+      <div class="card">
+        <img src="https://m.media-amazon.com/images/I/61iTkpZcN6L._AC_UL480_FMwebp_QL65_.jpg" alt="LED Headlights">
+        <h3>LED Headlights (Pair)</h3>
+        <p class="price">₨ 2,999</p>
+        <button class="add-btn" onclick="addToCart('LED Headlights', 2999)">Add to Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="https://m.media-amazon.com/images/I/71FK8CkS7rL._AC_UL480_FMwebp_QL65_.jpg" alt="LED Fog Lights">
+        <h3>LED Fog Lights</h3>
+        <p class="price">₨ 1,499</p>
+        <button class="add-btn" onclick="addToCart('LED Fog Lights', 1499)">Add to Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="https://m.media-amazon.com/images/I/61hHk3+mGCL._AC_UL480_FMwebp_QL65_.jpg" alt="Interior LED Strip">
+        <h3>Interior LED Strip Light</h3>
+        <p class="price">₨ 799</p>
+        <button class="add-btn" onclick="addToCart('Interior LED Strip Light', 799)">Add to Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="https://m.media-amazon.com/images/I/71E0JrU6OeL._AC_UL480_FMwebp_QL65_.jpg" alt="LED Tail Lights">
+        <h3>LED Tail Lights</h3>
+        <p class="price">₨ 2,499</p>
+        <button class="add-btn" onclick="addToCart('LED Tail Lights', 2499)">Add to Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="https://m.media-amazon.com/images/I/61jPszJ41HL._AC_UL480_FMwebp_QL65_.jpg" alt="LED Fog Beam">
+        <h3>LED Fog Beam Lights</h3>
+        <p class="price">₨ 1,199</p>
+        <button class="add-btn" onclick="addToCart('LED Fog Beam Lights', 1199)">Add to Cart</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2025 AutoGear Store. All Rights Reserved.
+  </footer>
+
+  <!-- JS -->
+  <script>
+    feather.replace();
+
+    function addToCart(name, price) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let existing = cart.find(item => item.name === name);
+      if (existing) { existing.qty += 1; } 
+      else { cart.push({name:name, price:price, qty:1}); }
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+  </script>
+
+</body>
+</html>

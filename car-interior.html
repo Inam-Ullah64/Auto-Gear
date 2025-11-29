@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Car Interior Accessories - AutoGear Store</title>
+
+  <!-- Feather Icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    /* NAVIGATION BAR */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0,0,0,0.75);
+      padding: 15px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      backdrop-filter: blur(6px);
+    }
+
+    nav h2 {
+      color: white;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-links a:hover {
+      color: #ff6600;
+    }
+
+    /* Cart badge */
+    .cart-badge {
+      background: red;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 50%;
+      position: relative;
+      top: -10px;
+      left: -10px;
+    }
+
+    /* HEADER */
+    header {
+      height: 50vh;
+      background: url('https://images.unsplash.com/photo-1503736334956-4c8f8e92946d') center/cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      position: relative;
+      margin-top: 60px;
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.55);
+    }
+
+    header h1 {
+      z-index: 2;
+      font-size: 3rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    /* MAIN CONTENT */
+    .container {
+      max-width: 1150px;
+      margin: 40px auto;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .card h3 {
+      margin: 12px 0 6px;
+      font-size: 1.2rem;
+    }
+
+    .price {
+      color: #ff6600;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .add-btn {
+      background: #ff6600;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 1rem;
+    }
+
+    .add-btn:hover {
+      background: #e65c00;
+    }
+
+    footer {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <h2>AutoGear Store</h2>
+    <div class="nav-links">
+      <a href="index.html"><i data-feather="arrow-left"></i> Back</a>
+      <a href="cart.html">
+        <i data-feather="shopping-cart"></i> 
+        Cart <span class="cart-badge" id="cart-count">0</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header>
+    <h1>Car Interior Accessories</h1>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="container">
+
+    <h2 style="font-size:2rem; margin-bottom:15px;">Available Products</h2>
+
+    <div class="products">
+
+      <!-- 10 PRODUCTS -->
+      <div class="card">
+        <img src="https://i.pinimg.com/1200x/48/3d/1c/483d1c18ca9c8eb533ca0d3f06497b43.jpg">
+        <h3>Premium Leather Steering Cover</h3>
+        <p class="price">PKR 499</p>
+        <button class="add-btn" onclick="addToCart('Leather Steering Cover', 499)">Add to Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="https://i.pinimg.com/1200x/87/35/c5/8735c506694245a5a0c9c0a758cf889c.jpg">
+        <h3>Car Dashboard Anti-Slip Mat</h3>
+        <p class="price">PKR 199</p>
+        <button class="add-btn" onclick="addToCart('Anti-Slip Dashboard Mat', 199)">Add to Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="https://i.pinimg.com/1200x/14/d9/1d/14d91d0ff93b43692661541108b688c6.jpg">
+        <h3>Memory Foam Seat Cushion</h3>
+        <p class="price">PKR 899</p>
+        <button class="add-btn" onclick="addToCart('Seat Cushion Memory Foam', 899)">Add to Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="https://i.pinimg.com/736x/60/a1/a2/60a1a297c8925b3c23e157f6c01169cf.jpg">
+        <h3>Car Floor Mats (Full Set)</h3>
+        <p class="price">PKR 1,499</p>
+        <button class="add-btn" onclick="addToCart('Car Floor Mats Full Set', 1499)">Add to Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="https://i.pinimg.com/1200x/b5/ee/b6/b5eeb613b111a7110cef113d44518280.jpg">
+        <h3>Car Ambient LED Light Kit</h3>
+        <p class="price">PKR 999</p>
+        <button class="add-btn" onclick="addToCart('Ambient LED Light Kit', 999)">Add to Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="https://i.pinimg.com/1200x/32/40/c4/3240c48897086574bed0a102f69c9423.jpg">
+        <h3>Car Neck Rest Pillow (Set of 2)</h3>
+        <p class="price">PKR 599</p>
+        <button class="add-btn" onclick="addToCart('Neck Rest Pillow Set', 599)">Add to Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="https://i.pinimg.com/1200x/cf/a7/5e/cfa75ead101be43c53bae45842418874.jpg">
+        <h3>Magnetic Phone Mount</h3>
+        <p class="price">PKR 349</p>
+        <button class="add-btn" onclick="addToCart('Magnetic Phone Mount', 349)">Add to Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="https://i.pinimg.com/1200x/ff/16/3f/ff163f9f66beb16fe4cf15fc5dab5f93.jpg">
+        <h3>Car Perfume Luxury Edition</h3>
+        <p class="price">PKR 299</p>
+        <button class="add-btn" onclick="addToCart('Car Perfume Luxury', 299)">Add to Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="https://i.pinimg.com/736x/59/2f/ed/592fed6e28adc0d103c47ac4cb90bd0d.jpg">
+        <h3>Sunshade for Front Windshield</h3>
+        <p class="price">PKR 399</p>
+        <button class="add-btn" onclick="addToCart('Windshield Sunshade', 399)">Add to Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="https://i.pinimg.com/1200x/27/bb/98/27bb98c6db62d5895869279194501453.jpg">
+        <h3>Car Vacuum Cleaner</h3>
+        <p class="price">PKR 1,199</p>
+        <button class="add-btn" onclick="addToCart('Car Vacuum Cleaner', 1199)">Add to Cart</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2025 AutoGear Store. All Rights Reserved.
+  </footer>
+
+  <!-- JS -->
+  <script>
+    feather.replace();
+
+    // Initialize cart count
+    function updateCartCount() {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+      document.getElementById("cart-count").innerText = totalItems;
+    }
+
+    // Add item to cart without popup
+    function addToCart(name, price) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let existing = cart.find(item => item.name === name);
+
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ name: name, price: price, qty: 1 });
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCartCount(); // update cart badge
+    }
+
+    // On page load
+    updateCartCount();
+  </script>
+
+</body>
+</html>

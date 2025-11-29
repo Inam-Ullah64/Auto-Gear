@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AutoGear Store - Car & Bike Accessories</title>
+
+  <!-- FEATHER ICONS -->
+  <script src="https://unpkg.com/feather-icons"></script>
+
+  <style>
+    * { box-sizing: border-box; margin:0; padding:0; font-family: Arial, sans-serif; }
+    body { background:#f5f5f5; color:#333; }
+
+    /* ------------------------ BIG SALE TIMER (AFTER VIDEO) ------------------------ */
+    .big-sale-wrapper {
+      margin: 40px 0; /* spacing above and below timer section */
+    }
+
+    .big-sale-timer {
+      width: 100%;
+      min-height: 230px;
+      padding: 40px 10%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(120deg, #ffe3cc, #fff5eb);
+      position: relative;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+    .big-sale-timer::before {
+      /* animated fill layer */
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, #ffd9a3, #ffb48a);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+      opacity: 0.9;
+      z-index: 0;
+    }
+    .big-sale-timer:hover::before {
+      transform: translateX(0);
+    }
+
+    .big-sale-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+    }
+
+    .big-sale-subtext {
+      font-size: 1.1rem;
+      margin-bottom: 24px;
+      opacity: 0.95;
+    }
+
+    .big-sale-countdown {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      font-weight: 800;
+      padding: 16px 32px;
+      border-radius: 999px;
+      border: 2px solid rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(4px);
+      letter-spacing: 3px;
+    }
+
+    #big-timer-text {
+      font-weight: 800;
+    }
+
+    .big-sale-highlight {
+      display: inline-block;
+      margin-top: 18px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      opacity: 0.9;
+    }
+
+    @media (max-width:700px) {
+      .big-sale-timer {
+        padding: 30px 6%;
+      }
+      .big-sale-countdown {
+        font-size: 1.6rem;
+        padding: 12px 20px;
+        letter-spacing: 2px;
+      }
+      .big-sale-subtext {
+        font-size: 1rem;
+      }
+    }
+    /* ------------------------------------------------------------------- */
+
+    /* NAV */
+    nav {
+      position: fixed; top:0; left:0; width:100%;
+      background: rgba(0,0,0,0.7); padding:15px 8%;
+      display:flex; justify-content:space-between; align-items:center;
+      z-index:100; backdrop-filter: blur(6px);
+    }
+    nav a { color:white; margin-left:20px; text-decoration:none; font-size:1.1rem; display:flex; align-items:center; gap:6px; position:relative; }
+    nav a:hover { color:#ff6600; }
+    #cart-count { background:#ff6600; color:white; border-radius:50%; font-size:.75rem; padding:2px 6px; position:absolute; top:-6px; right:-10px; }
+
+    header { height:100vh; position:relative; overflow:hidden; margin-top:60px; }
+    @keyframes zoomIn { from{transform:scale(1.05)} to{transform:scale(1.15)} }
+    .slide { position:absolute; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1.5s; transform:scale(1.05); }
+    .slide.active { opacity:1; animation:zoomIn 4s linear forwards; }
+    .header-content { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:white; text-align:center; z-index:10; width:100%; }
+    header h1 { font-size:4rem; letter-spacing:2px; font-weight:700; text-shadow:0 3px 10px black; }
+    header p { font-size:1.3rem; margin-top:15px; text-shadow:0 3px 10px black; }
+    .btn { margin-top:25px; padding:12px 30px; background:#ff6600; color:white; text-decoration:none; font-size:1.2rem; border-radius:6px; transition:.3s; }
+    .btn:hover { background:#e65c00; }
+
+    section { padding:60px 10%; }
+    .products { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+    .card { background:white; padding:20px; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.1); text-align:center; transition:.3s; text-decoration:none; color:black; }
+    .card:hover { transform:translateY(-8px); box-shadow:0 10px 20px rgba(0,0,0,0.2); }
+    .card img { width:100%; height:160px; object-fit:cover; border-radius:8px; }
+
+    /* VIDEO SECTION */
+    .video-section {
+      width: 100%;
+      height: 70vh;
+      position: relative;
+      overflow: hidden;
+      background: #000;
+      margin-top: 20px; /* space above video */
+    }
+    .video-wrapper {
+      position:absolute; inset:0;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .video-wrapper video {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .video-overlay-text {
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      color:white;
+      font-size:3rem;
+      font-weight:700;
+      text-shadow:0 4px 12px rgba(0,0,0,0.7);
+      z-index:5;
+      pointer-events:none;
+      text-align:center;
+    }
+    .video-fallback {
+      position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#fff; z-index:6; font-size:1rem;
+      background: linear-gradient(180deg, rgba(0,0,0,0.3), rgba(0,0,0,0.6));
+      padding:1rem;
+      text-align:center;
+    }
+
+    .bike-banner-wrapper {
+      margin-top: 40px; /* space between timer and image banner */
+    }
+
+    .bike-banner { width:100%; height:70vh; background:url('https://i.pinimg.com/1200x/c8/13/e6/c813e6d6f2efe5c0030dbbee2786b044.jpg') center/cover no-repeat; display:flex; align-items:center; justify-content:center; }
+    .bike-banner h2 { font-size:3rem; text-shadow:0 4px 10px rgba(0,0,0,0.7); color:white; font-weight:700; }
+
+    /* FOOTER + REVIEW FORM */
+    footer {
+      background:linear-gradient(to right,#111,#222,#111);
+      color:#eee;
+      padding:50px 10%;
+      margin-top:40px;
+      text-align:center;
+    }
+
+    .footer-content {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .review-form-container {
+      margin-top: 30px;
+      text-align: left;
+      background: rgba(255,255,255,0.03);
+      border-radius: 10px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .review-form-container h4 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    .review-form-container p {
+      font-size: 0.9rem;
+      color: #bbb;
+      margin-bottom: 18px;
+    }
+
+    .review-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .review-row .field {
+      flex: 1;
+      min-width: 160px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .review-form-container label {
+      font-size: 0.85rem;
+      color: #ccc;
+    }
+
+    .review-form-container input,
+    .review-form-container select,
+    .review-form-container textarea {
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(0,0,0,0.35);
+      color: #fff;
+      outline: none;
+      font-size: 0.9rem;
+    }
+
+    .review-form-container textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .review-form-container input::placeholder,
+    .review-form-container textarea::placeholder {
+      color: #888;
+    }
+
+    .review-submit-btn {
+      margin-top: 10px;
+      padding: 10px 22px;
+      border-radius: 999px;
+      border: none;
+      background: #ff6600;
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .review-submit-btn:hover {
+      background: #e65c00;
+      transform: translateY(-1px);
+    }
+
+    .footer-bottom-text {
+      margin-top:25px;
+      color:#888;
+      font-size: 0.85rem;
+      text-align:center;
+    }
+
+    @media (max-width:700px) {
+      header h1 { font-size:2rem; }
+      .video-overlay-text { font-size:1.6rem; }
+      .review-row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <h2 style="color:white;">AutoGear Store</h2>
+    <div>
+      <a href="#car-section"><i data-feather="zap"></i> Car</a>
+      <a href="#bike-section"><i data-feather="cpu"></i> Bike</a>
+      <a href="#products"><i data-feather="box"></i> Products</a>
+      <a href="cart.html"><i data-feather="shopping-cart"></i><span id="cart-count">0</span></a>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header>
+    <img src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d" class="slide active" alt="">
+    <img src="https://i.pinimg.com/736x/30/e4/4f/30e44f7cba034bcfda2b125dd5d354ec.jpg" class="slide" alt="">
+    <img src="https://images.unsplash.com/photo-1517153295259-74eb0b416cee" class="slide" alt="">
+    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70" class="slide" alt="">
+
+    <div class="header-content">
+      <h1>Premium Car & Bike Accessories</h1>
+      <p>Your One-Stop Store for All Automotive Gear</p>
+      <div style="display:flex; gap:40px; justify-content:center; margin-top:30px;">
+        <a href="#car-section" class="btn"><i data-feather="shield"></i> Car Accessories</a>
+        <a href="#bike-section" class="btn"><i data-feather="wind"></i> Bike Accessories</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- INTRO -->
+  <section style="text-align:center; background:white;">
+    <h2 style="font-size:2.2rem; margin-bottom:15px;">Welcome to AutoGear Store</h2>
+    <p style="font-size:1.2rem; max-width:800px; margin:auto;">
+      We bring you premium-quality car and bike accessories that combine performance, durability, and style.
+    </p>
+  </section>
+
+  <!-- CAR SECTION -->
+  <section id="car-section" style="background:#f7f7f7;">
+    <h2 style="text-align:center; font-size:2.2rem; margin-bottom:30px;">Car Accessories</h2>
+    <div class="products">
+      <a href="car-interior.html" class="card"><img src="https://i.pinimg.com/1200x/9a/e9/9e/9ae99efd7d6ab822ac2b619ae601ec9e.jpg" alt=""><h3>Car Interior Kit</h3></a>
+      <a href="alloy-rims.html" class="card"><img src="https://i.pinimg.com/736x/3a/3e/27/3a3e27d1e76bd6f7a73efbf73db88399.jpg" alt=""><h3>Alloy Rims</h3></a>
+      <a href="led-lights.html" class="card"><img src="https://i.pinimg.com/1200x/41/6a/60/416a602f8cde15ec8f230bbd6d2be18c.jpg" alt=""><h3>LED Lights</h3></a>
+      <a href="car-engine-oils.html" class="card"><img src="https://i.pinimg.com/736x/f2/61/3d/f2613db5c2abff45c8a46535c52147d4.jpg" alt=""><h3>Engine Oils</h3></a>
+    </div>
+  </section>
+
+  <!-- BIKE SECTION -->
+  <section id="bike-section">
+    <h2 style="text-align:center; font-size:2.2rem; margin-bottom:30px;">Bike Accessories</h2>
+    <div class="products">
+      <a href="bike-helmets.html" class="card"><img src="https://i.pinimg.com/1200x/61/46/cb/6146cb1867700933a7bde942e3eaaa7e.jpg" alt=""><h3>Motorcycle Helmets</h3></a>
+      <a href="bike-jackets.html" class="card"><img src="https://i.pinimg.com/736x/d7/1a/73/d71a73edf245f95fa4a81f39743deddd.jpg" alt=""><h3>Riding Jackets</h3></a>
+      <a href="bike-modification.html" class="card"><img src="https://i.pinimg.com/736x/f0/6e/a6/f06ea612226fa25a6d01ebb7d3cc3ef3.jpg" alt=""><h3>Bike Modification Kits</h3></a>
+      <a href="bike-lights.html" class="card"><img src="https://i.pinimg.com/1200x/d6/ca/58/d6ca5843ed7a38cc3f187cbcc1a4e742.jpg" alt=""><h3>Bike Lights</h3></a>
+    </div>
+  </section>
+
+  <!-- VIDEO SECTION -->
+  <div class="video-section" id="promoVideoSection" aria-label="Promotional video">
+    <div class="video-wrapper" id="videoWrapper">
+      <video id="promoVideo" playsinline muted loop preload="none">
+        <source src="WhatsApp Video 2025-11-28 at 4.40.39 PM.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="video-overlay-text">PROTECT YOUR BODY</div>
+    <div class="video-fallback" id="videoFallback" style="display:none;">
+      Tap to play the video
+    </div>
+  </div>
+
+  <!-- 🌟 BIG SALE TIMER SECTION (AFTER VIDEO) 🌟 -->
+  <div class="big-sale-wrapper">
+    <section class="big-sale-timer">
+      <div class="big-sale-inner">
+        <p class="big-sale-subtext">
+          50% OFF on premium car & bike accessories. Limited-time sale.
+        </p>
+        <div class="big-sale-countdown">
+          <span id="big-timer-text">Loading...</span>
+        </div>
+        <div class="big-sale-highlight">
+          Hurry up – before the deal rides away.
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- BANNER WITH EXTRA SPACING -->
+  <div class="bike-banner-wrapper">
+    <div class="bike-banner"><h2>"Ride Beyond Limits – Feel the Freedom of the Open Road"</h2></div>
+  </div>
+
+  <!-- FOOTER WITH REVIEW FORM -->
+  <footer>
+    <div class="footer-content">
+      <h3>AutoGear Store</h3>
+      <p>Your trusted partner for premium car & bike accessories.</p>
+
+      <div class="review-form-container">
+        <h4>Leave a Review</h4>
+        <p>Tell us about your experience with AutoGear Store. Your feedback helps us serve you better.</p>
+
+        <form id="reviewForm">
+          <div class="review-row">
+            <div class="field">
+              <label for="reviewName">Name</label>
+              <input type="text" id="reviewName" name="name" placeholder="Enter your name" required>
+            </div>
+            <div class="field">
+              <label for="reviewEmail">Email</label>
+              <input type="email" id="reviewEmail" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="field" style="max-width: 150px;">
+              <label for="reviewRating">Rating</label>
+              <select id="reviewRating" name="rating" required>
+                <option value="">Select</option>
+                <option value="5">⭐ 5 - Excellent</option>
+                <option value="4">⭐ 4 - Good</option>
+                <option value="3">⭐ 3 - Average</option>
+                <option value="2">⭐ 2 - Poor</option>
+                <option value="1">⭐ 1 - Very Poor</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field" style="margin-top:8px;">
+            <label for="reviewMessage">Your Review</label>
+            <textarea id="reviewMessage" name="message" placeholder="Share your thoughts..." required></textarea>
+          </div>
+
+          <button type="submit" class="review-submit-btn">
+            <i data-feather="send"></i>
+            Submit Review
+          </button>
+        </form>
+      </div>
+
+      <p class="footer-bottom-text">© 2025 AutoGear Store. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    feather.replace();
+
+    // ---- CART COUNT ----
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      document.getElementById("cart-count").innerText = cart.length;
+    }
+    updateCartCount();
+
+    // ---- HEADER SLIDESHOW ----
+    let slides = document.querySelectorAll(".slide");
+    let index = 0;
+    setInterval(() => {
+      slides[index].classList.remove("active");
+      index = (index + 1) % slides.length;
+      slides[index].classList.add("active");
+    }, 4000);
+
+    // ---- SALE TIMER FUNCTION (5 DAYS) ----
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + 5);
+
+    function updateTimer() {
+      const now = new Date().getTime();
+      const distance = endDate - now;
+
+      const bigTimer = document.getElementById("big-timer-text");
+
+      if (distance <= 0) {
+        if (bigTimer) bigTimer.innerText = "SALE ENDED";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      const formatted = `${days}D : ${hours}H : ${minutes}M : ${seconds}S`;
+
+      if (bigTimer) {
+        bigTimer.innerText = formatted;
+      }
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+    // ---- VIDEO CONTROLS ----
+    (function() {
+      const video = document.getElementById('promoVideo');
+      const fallback = document.getElementById('videoFallback');
+
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            video.play().catch(() => {
+              fallback.style.display = 'flex';
+            });
+          } else {
+            video.pause();
+          }
+        });
+      }, { threshold: 0.5 });
+
+      obs.observe(document.getElementById('promoVideoSection'));
+
+      fallback.addEventListener('click', function() {
+        video.muted = false;
+        video.play().catch(()=>{});
+        fallback.style.display = 'none';
+      });
+    })();
+
+    // ---- REVIEW FORM HANDLER ----
+    const reviewForm = document.getElementById('reviewForm');
+    if (reviewForm) {
+      reviewForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Thank you for your review! 🚗✨');
+        reviewForm.reset();
+      });
+    }
+  </script>
+
+</body>
+</html>
